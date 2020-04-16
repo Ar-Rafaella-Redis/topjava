@@ -7,9 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class MealsUtil {
@@ -26,7 +24,11 @@ public class MealsUtil {
 
         List<MealTo> mealsTo = filteredByStreams(meals, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
         mealsTo.forEach(System.out::println);
-    }
+
+        final LocalTime startTime = LocalTime.of(7, 0);
+        final LocalTime endTime = LocalTime.of(12, 0);
+        System.out.println(filteredByCycles(meals, startTime, endTime, 2000));
+      }
 
     public static List<MealTo> filteredByStreams(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
         Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
@@ -40,6 +42,19 @@ public class MealsUtil {
                 .map(meal -> createTo(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
                 .collect(Collectors.toList());
     }
+
+
+    public static List<MealTo> filteredByCycles(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        final Map<LocalDate, Integer> caloriesSumByDate = new HashMap<>();
+        meals.forEach(meal -> caloriesSumByDate.merge(meal.getDate(),meal.getCalories(),Integer::sum));
+
+        final List<MealTo> mealsTo = new ArrayList<>();
+        meals.forEach(meal ->{if (TimeUtil.isBetweenInclusive(meal.getTime(), startTime, endTime)) {
+            mealsTo.add(createTo(meal,caloriesSumByDate.get(meal.getDate())>caloriesPerDay));}
+        });
+      return mealsTo;
+    }
+
 
     private static MealTo createTo(Meal meal, boolean excess) {
         return new MealTo(meal.getDateTime(), meal.getDescription(), meal.getCalories(), excess);
