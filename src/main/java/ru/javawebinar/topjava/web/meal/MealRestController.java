@@ -71,6 +71,7 @@ public class MealRestController {
         log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
 
         List<Meal> mealsDateFiltered = service.getBetweenHalfOpen(startDate, endDate, userId);
+        log.info("size {}", mealsDateFiltered.isEmpty()?"empty":mealsDateFiltered.size());
         return MealsUtil.getFilteredTos(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
     }
 }
