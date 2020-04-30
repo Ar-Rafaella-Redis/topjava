@@ -1,6 +1,9 @@
 package ru.javawebinar.topjava.model;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public abstract class AbstractBaseEntity {
+  // public static final AtomicInteger START_SEQ = 100000;
     public static final int START_SEQ = 100000;
 
     protected Integer id;
