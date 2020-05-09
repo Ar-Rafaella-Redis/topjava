@@ -68,6 +68,11 @@ public class InMemoryMealRepository implements MealRepository {
     }
 
     @Override
+    public Meal getWithUser(int id, int user_id) {
+        return null;
+    }
+
+    @Override
     public List<Meal> getAll(int userId) {
         return getAllFiltered(userId, meal -> true);
     }

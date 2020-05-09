@@ -24,7 +24,6 @@ public class DataJpaMealRepository implements MealRepository {
 
     @Override
     public Meal save(Meal meal, int userId) {
-        log.info("*******************DATAJPA%%%%%%%%%%%%%");
         meal.setUser(crudUserRepository.getOne(userId));
         if (!meal.isNew() && get(meal.getId(), userId) == null)
             return null;
@@ -39,7 +38,7 @@ public class DataJpaMealRepository implements MealRepository {
     @Override
     public Meal get(int id, int userId) {
        Meal meal = crudRepository.findById(id).orElse(null);
-        return meal != null &&  meal.getUser().getId() == userId ? meal : null;
+       return meal != null &&  meal.getUser().getId() == userId ? meal : null;
     }
 
     @Override
@@ -51,5 +50,10 @@ public class DataJpaMealRepository implements MealRepository {
     public List<Meal> getBetweenHalfOpen(LocalDateTime startDateTime, LocalDateTime endDateTime, int userId) {
         User user = crudUserRepository.getOne(userId);
         return crudRepository.queryAllByDateTimeIsAfterAndDateTimeBeforeAndUser(startDateTime, endDateTime, user, SORT_DATE_START);
+    }
+
+    @Override
+    public Meal getWithUser(int id, int user_id) {
+       return crudRepository.getWithUser(id,user_id);
     }
 }

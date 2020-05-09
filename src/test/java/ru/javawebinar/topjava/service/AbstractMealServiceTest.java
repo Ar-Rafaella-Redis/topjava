@@ -28,10 +28,10 @@ import static ru.javawebinar.topjava.UserTestData.USER_ID;
 
 public abstract class AbstractMealServiceTest extends AbstractServiceTest {
     @Autowired
-    private MealService service;
+    protected MealService service;
     @Autowired
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
-    private MealRepository repository;
+    protected MealRepository repository;
 
     @Test
     public void delete() throws Exception {

@@ -65,4 +65,5 @@ public class JpaMealRepository implements MealRepository {
                 .setParameter("endDateTime", endDateTime)
                 .getResultList();
     }
+
 }
